@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package schemax.plugin;
+
+import "google/protobuf/compiler/plugin.proto";
+import "schemax/schema/schema.proto";
+
+option go_package = "github.com/RyoJerryYu/schemax/proto/schemax/plugin";
+
+message TableGeneratorRequest {
+  repeated string files_to_generate = 1;
+  optional string parameter = 2;
+  google.protobuf.compiler.Version compiler_version = 3;
+
+  // tables are the tables to generate.
+  repeated schemax.schema.Table tables = 4;
+  // source_schema is the source schema that the tables are from.
+  schemax.schema.Schema source_schema = 5;
+}
+
+message TableGeneratorResponse {
+  optional string error = 1;
+  message File {
+    optional string name = 1;
+    optional string content = 2;
+  }
+
+  repeated File files = 2;
+}

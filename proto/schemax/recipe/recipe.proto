@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package schemax.recipe;
+
+option go_package = "github.com/RyoJerryYu/schemax/proto/schemax/recipe";
+
+message Recipe {
+  string dsn = 1;
+  string schema = 2; // optional, if not set, use schema from dsn
+  repeated TableSet table_sets = 3;
+  repeated PluginSetting plugins = 4;
+}
+
+message TableSet {
+  string set_name = 1;
+  repeated string tables = 2;
+}
+
+message PluginSetting {
+  string plugin = 1;
+  string out = 2; // output path template, can use {{.SetName}} and {{.TableName}}
+  repeated string opts = 3; // plugin options
+}

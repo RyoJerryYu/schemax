@@ -1,0 +1,498 @@
+schemas:
+    - driver: mysql
+      name: schemax
+      tables:
+        - type: table
+          name: a_bit_of_everything
+          columns:
+            - name: a_bigint
+              type:
+                type: bigint
+            - name: a_bigint_nullable
+              type:
+                type: bigint
+                nullable: true
+            - name: a_binary
+              type:
+                type: binary
+                prec: 1
+            - name: a_binary_nullable
+              type:
+                type: binary
+                prec: 1
+                nullable: true
+            - name: a_bit
+              type:
+                type: bit
+                prec: 1
+            - name: a_bit_nullable
+              type:
+                type: bit
+                prec: 1
+                nullable: true
+            - name: a_blob
+              type:
+                type: blob
+            - name: a_blob_nullable
+              type:
+                type: blob
+                nullable: true
+            - name: a_bool
+              type:
+                type: tinyint
+                prec: 1
+            - name: a_bool_nullable
+              type:
+                type: tinyint
+                prec: 1
+                nullable: true
+            - name: a_char
+              type:
+                type: char
+                prec: 1
+            - name: a_char_nullable
+              type:
+                type: char
+                prec: 1
+                nullable: true
+            - name: a_date
+              type:
+                type: date
+            - name: a_date_nullable
+              type:
+                type: date
+                nullable: true
+            - name: a_datetime
+              type:
+                type: datetime
+            - name: a_datetime_nullable
+              type:
+                type: datetime
+                nullable: true
+            - name: a_dec
+              type:
+                type: decimal
+                prec: 10
+            - name: a_dec_nullable
+              type:
+                type: decimal
+                prec: 10
+                nullable: true
+            - name: a_fixed
+              type:
+                type: decimal
+                prec: 10
+            - name: a_fixed_nullable
+              type:
+                type: decimal
+                prec: 10
+                nullable: true
+            - name: a_decimal
+              type:
+                type: decimal
+                prec: 10
+            - name: a_decimal_nullable
+              type:
+                type: decimal
+                prec: 10
+                nullable: true
+            - name: a_double_precision
+              type:
+                type: double
+            - name: a_double_precision_nullable
+              type:
+                type: double
+                nullable: true
+            - name: a_float
+              type:
+                type: float
+            - name: a_float_nullable
+              type:
+                type: float
+                nullable: true
+            - name: a_int
+              type:
+                type: int
+            - name: a_int_nullable
+              type:
+                type: int
+                nullable: true
+            - name: a_integer
+              type:
+                type: int
+            - name: a_integer_nullable
+              type:
+                type: int
+                nullable: true
+            - name: a_json
+              type:
+                type: json
+            - name: a_json_nullable
+              type:
+                type: json
+                nullable: true
+            - name: a_longblob
+              type:
+                type: longblob
+            - name: a_longblob_nullable
+              type:
+                type: longblob
+                nullable: true
+            - name: a_longtext
+              type:
+                type: longtext
+            - name: a_longtext_nullable
+              type:
+                type: longtext
+                nullable: true
+            - name: a_mediumblob
+              type:
+                type: mediumblob
+            - name: a_mediumblob_nullable
+              type:
+                type: mediumblob
+                nullable: true
+            - name: a_mediumint
+              type:
+                type: mediumint
+            - name: a_mediumint_nullable
+              type:
+                type: mediumint
+                nullable: true
+            - name: a_mediumtext
+              type:
+                type: mediumtext
+            - name: a_mediumtext_nullable
+              type:
+                type: mediumtext
+                nullable: true
+            - name: a_numeric
+              type:
+                type: decimal
+                prec: 10
+            - name: a_numeric_nullable
+              type:
+                type: decimal
+                prec: 10
+                nullable: true
+            - name: a_real
+              type:
+                type: double
+            - name: a_real_nullable
+              type:
+                type: double
+                nullable: true
+            - name: a_set
+              type:
+                type: set('one','two')
+            - name: a_set_nullable
+              type:
+                type: set('one','two')
+                nullable: true
+            - name: a_smallint
+              type:
+                type: smallint
+            - name: a_smallint_nullable
+              type:
+                type: smallint
+                nullable: true
+            - name: a_text
+              type:
+                type: text
+            - name: a_text_nullable
+              type:
+                type: text
+                nullable: true
+            - name: a_time
+              type:
+                type: time
+            - name: a_time_nullable
+              type:
+                type: time
+                nullable: true
+            - name: a_timestamp
+              type:
+                type: timestamp
+            - name: a_timestamp_nullable
+              type:
+                type: timestamp
+                nullable: true
+            - name: a_tinyblob
+              type:
+                type: tinyblob
+            - name: a_tinyblob_nullable
+              type:
+                type: tinyblob
+                nullable: true
+            - name: a_tinyint
+              type:
+                type: tinyint
+            - name: a_tinyint_nullable
+              type:
+                type: tinyint
+                nullable: true
+            - name: a_tinytext
+              type:
+                type: tinytext
+            - name: a_tinytext_nullable
+              type:
+                type: tinytext
+                nullable: true
+            - name: a_varbinary
+              type:
+                type: varbinary
+                prec: 255
+            - name: a_varbinary_nullable
+              type:
+                type: varbinary
+                prec: 255
+                nullable: true
+            - name: a_varchar
+              type:
+                type: varchar
+                prec: 255
+            - name: a_varchar_nullable
+              type:
+                type: varchar
+                prec: 255
+                nullable: true
+            - name: a_year
+              type:
+                type: year
+            - name: a_year_nullable
+              type:
+                type: year
+                nullable: true
+          manual: true
+        - type: table
+          name: a_index
+          columns:
+            - name: a_key
+              type:
+                type: int
+                nullable: true
+          indexes:
+            - name: a_index_idx
+              fields:
+                - name: a_key
+                  type:
+                    type: int
+                    nullable: true
+              func: a_index_by_a_key
+          manual: true
+        - type: table
+          name: a_index_composite
+          columns:
+            - name: a_key1
+              type:
+                type: int
+                nullable: true
+            - name: a_key2
+              type:
+                type: int
+                nullable: true
+          indexes:
+            - name: a_index_composite_idx
+              fields:
+                - name: a_key1
+                  type:
+                    type: int
+                    nullable: true
+                - name: a_key2
+                  type:
+                    type: int
+                    nullable: true
+              func: a_index_composite_by_a_key1_a_key2
+          manual: true
+        - type: table
+          name: a_manual_table
+          columns:
+            - name: a_text
+              type:
+                type: varchar
+                prec: 255
+                nullable: true
+          manual: true
+        - type: table
+          name: a_primary
+          columns:
+            - name: a_key
+              type:
+                type: int
+              isPrimary: true
+          primaryKeys:
+            - name: a_key
+              type:
+                type: int
+              isPrimary: true
+          indexes:
+            - name: a_primary_a_key_pkey
+              fields:
+                - name: a_key
+                  type:
+                    type: int
+                  isPrimary: true
+              isUnique: true
+              isPrimary: true
+              func: a_primary_by_a_key
+          manual: true
+        - type: table
+          name: a_primary_composite
+          columns:
+            - name: a_key1
+              type:
+                type: int
+              isPrimary: true
+            - name: a_key2
+              type:
+                type: int
+              isPrimary: true
+          primaryKeys:
+            - name: a_key1
+              type:
+                type: int
+              isPrimary: true
+            - name: a_key2
+              type:
+                type: int
+              isPrimary: true
+          indexes:
+            - name: a_primary_composite_a_key1_a_key2_pkey
+              fields:
+                - name: a_key1
+                  type:
+                    type: int
+                  isPrimary: true
+                - name: a_key2
+                  type:
+                    type: int
+                  isPrimary: true
+              isUnique: true
+              isPrimary: true
+              func: a_primary_composite_by_a_key1_a_key2
+          manual: true
+        - type: table
+          name: a_primary_multi
+          columns:
+            - name: a_key
+              type:
+                type: int
+              isPrimary: true
+            - name: a_text
+              type:
+                type: varchar
+                prec: 255
+                nullable: true
+          primaryKeys:
+            - name: a_key
+              type:
+                type: int
+              isPrimary: true
+          indexes:
+            - name: a_primary_multi_a_key_pkey
+              fields:
+                - name: a_key
+                  type:
+                    type: int
+                  isPrimary: true
+              isUnique: true
+              isPrimary: true
+              func: a_primary_multi_by_a_key
+          manual: true
+        - type: table
+          name: a_sequence
+          columns:
+            - name: a_seq
+              type:
+                type: int
+              isPrimary: true
+              isSequence: true
+          primaryKeys:
+            - name: a_seq
+              type:
+                type: int
+              isPrimary: true
+              isSequence: true
+          indexes:
+            - name: a_sequence_a_seq_pkey
+              fields:
+                - name: a_seq
+                  type:
+                    type: int
+                  isPrimary: true
+                  isSequence: true
+              isUnique: true
+              isPrimary: true
+              func: a_sequence_by_a_seq
+        - type: table
+          name: a_sequence_multi
+          columns:
+            - name: a_seq
+              type:
+                type: int
+              isPrimary: true
+              isSequence: true
+            - name: a_text
+              type:
+                type: varchar
+                prec: 255
+                nullable: true
+          primaryKeys:
+            - name: a_seq
+              type:
+                type: int
+              isPrimary: true
+              isSequence: true
+          indexes:
+            - name: a_sequence_multi_a_seq_pkey
+              fields:
+                - name: a_seq
+                  type:
+                    type: int
+                  isPrimary: true
+                  isSequence: true
+              isUnique: true
+              isPrimary: true
+              func: a_sequence_multi_by_a_seq
+        - type: table
+          name: a_unique_index
+          columns:
+            - name: a_key
+              type:
+                type: int
+                nullable: true
+          indexes:
+            - name: a_key
+              fields:
+                - name: a_key
+                  type:
+                    type: int
+                    nullable: true
+              isUnique: true
+              func: a_unique_index_by_a_key
+          manual: true
+        - type: table
+          name: a_unique_index_composite
+          columns:
+            - name: a_key1
+              type:
+                type: int
+                nullable: true
+            - name: a_key2
+              type:
+                type: int
+                nullable: true
+          indexes:
+            - name: a_key1
+              fields:
+                - name: a_key1
+                  type:
+                    type: int
+                    nullable: true
+                - name: a_key2
+                  type:
+                    type: int
+                    nullable: true
+              isUnique: true
+              func: a_unique_index_composite_by_a_key1_a_key2
+          manual: true

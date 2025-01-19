@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package schemax.schema;
+
+option go_package = "github.com/RyoJerryYu/schemax/proto/schemax/schema";
+
+// Set is a set of queries and schemas.
+message Set {
+  repeated Query queries = 1;
+  repeated Schema schemas = 2;
+}
+
+// Query is a query.
+message Query {
+  string driver = 1;
+  string name = 2;
+  string comment = 3;
+  bool exec = 4;
+  bool flat = 5;
+  bool one = 6;
+  bool interpolate = 7;
+  string type = 8;
+  string type_comment = 9;
+  repeated Field fields = 10;
+  bool manual_fields = 11; // fields generated or provided by user
+  repeated Field params = 12;
+  repeated string query = 13;
+  repeated string comments = 14;
+}
+
+// Schema is a SQL schema.
+message Schema {
+  string driver = 1;
+  string name = 2;
+  repeated Enum enums = 3;
+  repeated Proc procs = 4;
+  repeated Table tables = 5;
+  repeated Table views = 6;
+}
+
+// Enum is a enum type.
+message Enum {
+  string name = 1;
+  repeated Field values = 2;
+}
+
+// Proc is a stored procedure.
+message Proc {
+  string id = 1;
+  string type = 2; // 'procedure' or 'function'
+  string name = 3;
+  repeated Field params = 4;
+  repeated Field returns = 5;
+  bool void = 6;
+  string definition = 7;
+}
+
+// Table is a table or view.
+message Table {
+  string type = 1; // 'table' or 'view'
+  string name = 2;
+  repeated Field columns = 3;
+  repeated Field primary_keys = 4;
+  repeated Index indexes = 5;
+  repeated ForeignKey foreign_keys = 6;
+  bool manual = 7;
+  string definition = 8; // empty for tables
+}
+
+// Index is a index.
+message Index {
+  string name = 1; // index name
+  repeated Field fields = 2; // column that has the index on it
+  bool is_unique = 3; // is the index unique
+  bool is_primary = 4; // is the index primary
+  string func = 5; // index func name (based on index mode)
+}
+
+// // ForeignKey is a foreign key.
+message ForeignKey {
+  string name = 1; // constraint name
+  repeated Field fields = 2; // column that has the key on it
+  string ref_table = 3; // table the foreign key refers to
+  repeated Field ref_fields = 4; // column in ref table the index refers to
+  string func = 5; // foreign key func name (based on fkey mode)
+  string ref_func = 6; // func name from ref index
+}
+
+// Field is a column, index, enum value, or stored procedure parameter.
+message Field {
+  string name = 1;
+  Type type = 2;
+  string default = 3;
+  bool is_primary = 4;
+  bool is_sequence = 5;
+  optional int32 const_value = 6;
+  bool interpolate = 7;
+  bool join = 8;
+  string comment = 9;
+}
+
+// Type holds information for a database type.
+// ParseType parses "type[ (precision[,scale])][\[\]]" strings returning the
+// parsed precision, scale, and if the type is an array or not.
+//
+// Expected formats:
+//
+//		type
+//		type(precision)
+//		type(precision, scale)
+//	 type(precision, scale) unsigned
+//		timestamp(n) with [local] time zone (oracle only)
+//
+// The returned type is stripped of precision and scale.
+message Type {
+  string type = 1;
+  int32 prec = 2;
+  int32 scale = 3;
+  bool nullable = 4;
+  bool is_array = 5;
+  bool unsigned = 6;
+  Enum enum = 7;
+}

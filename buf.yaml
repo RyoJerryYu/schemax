@@ -1,0 +1,7 @@
+version: v2
+modules:
+  - name: buf.build/ryojerryyu/schemax
+    path: proto
+lint:
+  except:
+    - PACKAGE_VERSION_SUFFIX
