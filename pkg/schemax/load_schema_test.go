@@ -1,4 +1,4 @@
-package main
+package schemax
 
 import (
 	"context"

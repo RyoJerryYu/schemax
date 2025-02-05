@@ -1,5 +1,9 @@
 package schemagen
 
+import (
+	protoplugin "github.com/RyoJerryYu/schemax/proto/schemax/plugin"
+)
+
 type Options struct {
 	// If ParamFunc is non-nil, it will be called with each unknown
 	// generator parameter.
@@ -30,3 +34,8 @@ type Options struct {
 // func (opts Options) Run(f func(*protogen.Plugin) error) error {
 // 	return runWithOptions(opts, f)
 // }
+
+type TableGenerator interface {
+	Name() string
+	Run(req *protoplugin.TableGeneratorRequest) (*protoplugin.TableGeneratorResponse, error)
+}
