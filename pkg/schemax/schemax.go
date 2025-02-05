@@ -2,6 +2,9 @@ package schemax
 
 import (
 	"context"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/RyoJerryYu/go-utilx/pkg/container/containerx"
 	"github.com/RyoJerryYu/schemax/pkg/schemagen"
@@ -47,19 +50,48 @@ func GenFor(recipe *protorecipe.Recipe, schema *protoschema.Schema, plugins ...s
 		}
 
 		req := protoplugin.TableGeneratorRequest{
-			FilesToGenerate: []string{"go"}, // TODO
-			Tables:          tables,
-			SourceSchema:    schema,
+			TablesToGenerate: containerx.ToNames(tables),
+			Tables:           tables,
+			SourceSchema:     schema,
 		}
 
+		name2Plugin := containerx.MapByNames(plugins)
+
 		// write to plugins
-		for _, plugin := range plugins {
+		for _, pluginCfg := range recipe.Plugins {
+			plugin, ok := name2Plugin[pluginCfg.Plugin]
+			if !ok {
+				glog.Errorf("plugin not found: %s", pluginCfg.Plugin)
+				continue
+			}
 			resp, err := plugin.Run(&req)
 			if err != nil {
 				return err
 			}
+			if resp.Error != nil {
+				glog.Errorf("plugin %s error: %s", plugin.GetName(), resp.GetError())
+				continue
+			}
 
-			glog.V(3).Infof("gen %d files for plugin %s", len(resp.Files), plugin.Name())
+			glog.V(3).Infof("gen %d files for plugin %s", len(resp.Files), plugin.GetName())
+
+			// Replace {set_name} with tableSet.SetName
+			outDir := strings.Replace(pluginCfg.Out, "{set_name}", tableSet.SetName, -1)
+
+			for _, file := range resp.Files {
+				glog.V(3).Infof("gen file: %s", file.GetName())
+				fullPath := filepath.Join(outDir, file.GetName())
+
+				// Ensure the directory exists
+				if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
+					return err
+				}
+
+				err = os.WriteFile(fullPath, []byte(file.GetContent()), 0644)
+				if err != nil {
+					return err
+				}
+			}
 		}
 	}
 
