@@ -1,7 +1,14 @@
 package schemagen
 
 import (
-	protoplugin "github.com/RyoJerryYu/schemax/proto/schemax/plugin"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"strings"
+
+	"github.com/RyoJerryYu/schemax/proto/schemax/plugin"
+	"google.golang.org/protobuf/proto"
 )
 
 type Options struct {
@@ -28,14 +35,66 @@ type Options struct {
 	//   opts.Run(func(p *protogen.Plugin) error {
 	//     if *value { ... }
 	//   })
-	ParamFunc func(name, value string) string
+	ParamFunc func(name, value string) error
 }
 
-// func (opts Options) Run(f func(*protogen.Plugin) error) error {
-// 	return runWithOptions(opts, f)
-// }
+func (opts Options) Run(generator TableGenerator) {
+	err := opts.run(generator)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s: %v\n", filepath.Base(os.Args[0]), err)
+		os.Exit(1)
+	}
+}
 
-type TableGenerator interface {
-	Name() string
-	Run(req *protoplugin.TableGeneratorRequest) (*protoplugin.TableGeneratorResponse, error)
+func (opts Options) run(generator TableGenerator) error {
+	in, err := io.ReadAll(os.Stdin)
+	if err != nil {
+		return err
+	}
+	req := &plugin.TableGeneratorRequest{}
+	if err := proto.Unmarshal(in, req); err != nil {
+		return err
+	}
+	opts.InitParams(req)
+	resp, err := generator.Run(req)
+	if err != nil {
+		// Errors from the plugin function are reported by setting the
+		// error field in the TableGeneratorResponse.
+		//
+		// In contrast, errors that indicate a problem in protoc
+		// itself (unparsable input, I/O errors, etc.) are reported
+		// to stderr.
+		if resp.Error == nil {
+			resp.Error = proto.String(err.Error())
+		}
+	}
+	out, err := proto.Marshal(resp)
+	if err != nil {
+		return err
+	}
+	if _, err := os.Stdout.Write(out); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (opts Options) InitParams(req *plugin.TableGeneratorRequest) {
+	if opts.ParamFunc == nil {
+		return
+	}
+
+	for _, param := range strings.Split(req.GetParameter(), ",") {
+		var value string
+		if i := strings.Index(param, "="); i >= 0 {
+			value = param[i+1:]
+			param = param[0:i]
+		}
+
+		switch param {
+		case "":
+			// Ignore.
+		default:
+			opts.ParamFunc(param, value)
+		}
+	}
 }
