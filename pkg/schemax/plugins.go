@@ -29,8 +29,8 @@ func PreparePlugins(recipePlugin []*protorecipe.PluginSetting) []schemagen.Table
 
 type stdoutTableGenerator struct{}
 
-// Name implements schemagen.TableGenerator.
-func (m *stdoutTableGenerator) Name() string {
+// GetName implements schemagen.TableGenerator.
+func (m *stdoutTableGenerator) GetName() string {
 	return "stdout"
 }
 
@@ -59,8 +59,8 @@ type cmdTableGenerator struct {
 	opts   []string
 }
 
-// Name implements schemagen.TableGenerator.
-func (c *cmdTableGenerator) Name() string {
+// GetName implements schemagen.TableGenerator.
+func (c *cmdTableGenerator) GetName() string {
 	return c.plugin
 }
 

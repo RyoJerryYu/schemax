@@ -7,14 +7,13 @@ import (
 	"github.com/RyoJerryYu/schemax/proto/schemax/plugin"
 	"github.com/golang/glog"
 	"github.com/octago/sflags/gen/gflag"
-	"google.golang.org/protobuf/proto"
 )
 
 type Option struct {
 }
 
-// Name implements schemagen.TableGenerator.
-func (o *Option) Name() string {
+// GetName implements schemagen.TableGenerator.
+func (o *Option) GetName() string {
 	panic("unimplemented")
 }
 
@@ -24,8 +23,8 @@ func (o *Option) Run(req *plugin.TableGeneratorRequest) (*plugin.TableGeneratorR
 	return &plugin.TableGeneratorResponse{
 		Files: []*plugin.TableGeneratorResponse_File{
 			{
-				Name:    proto.String("test.go"),
-				Content: proto.String(`package main`),
+				Name:    "test.go",
+				Content: `package main`,
 			},
 		},
 	}, nil
