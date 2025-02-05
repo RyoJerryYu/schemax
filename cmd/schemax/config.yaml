@@ -9,11 +9,11 @@ table_sets:
     tables:
       - setting
 
-plugins: []
-  # - plugin: go
-  #   out: /path/to/{set_name}/{table_name}.go
-  #   opts:
-  #     - package=model
+plugins:
+  - plugin: schemax-gen-debug
+    out: /path/to/{set_name}/{table_name}.go
+    opts:
+      - package=model
   # - plugin: json
   #   out: /path/to/{set_name}/{table_name}.json
   # - plugin: yaml
