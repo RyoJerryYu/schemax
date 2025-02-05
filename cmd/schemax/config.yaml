@@ -3,17 +3,21 @@ dsn: mysql://schemaxuser:123456@127.0.0.1:13306/schemax?loc=Local&parseTime=true
 table_sets:
   - set_name: default
     tables:
-      - user
-      - address
-  - set_name: other
+      - a_index
+      - a_index_composite
+      - a_manual_table
+      - a_primary
+      - a_primary_composite
+      - a_primary_multi
+  - set_name: a_bit_of_everything
     tables:
-      - setting
+      - a_bit_of_everything
 
-plugins: []
-  # - plugin: go
-  #   out: /path/to/{set_name}/{table_name}.go
-  #   opts:
-  #     - package=model
+plugins:
+  - plugin: schemax-gen-debug
+    out: to/{set_name}
+    opts:
+      - package=model
   # - plugin: json
   #   out: /path/to/{set_name}/{table_name}.json
   # - plugin: yaml

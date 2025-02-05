@@ -8,7 +8,7 @@ import "schemax/schema/schema.proto";
 option go_package = "github.com/RyoJerryYu/schemax/proto/schemax/plugin";
 
 message TableGeneratorRequest {
-  repeated string files_to_generate = 1;
+  repeated string tables_to_generate = 1;
   optional string parameter = 2;
   google.protobuf.compiler.Version compiler_version = 3;
 
@@ -21,8 +21,11 @@ message TableGeneratorRequest {
 message TableGeneratorResponse {
   optional string error = 1;
   message File {
-    optional string name = 1;
-    optional string content = 2;
+    // the file name, relative to the output directory.
+    // should not contain . or .. as path elements, so the generated file
+    // will be in the output directory or a subdirectory.
+    string name = 1;
+    string content = 2; // the file content
   }
 
   repeated File files = 2;

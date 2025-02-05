@@ -1,7 +1,9 @@
 package schemax
 
 import (
+	"bytes"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/RyoJerryYu/schemax/pkg/schemagen"
@@ -27,8 +29,8 @@ func PreparePlugins(recipePlugin []*protorecipe.PluginSetting) []schemagen.Table
 
 type stdoutTableGenerator struct{}
 
-// Name implements schemagen.TableGenerator.
-func (m *stdoutTableGenerator) Name() string {
+// GetName implements schemagen.TableGenerator.
+func (m *stdoutTableGenerator) GetName() string {
 	return "stdout"
 }
 
@@ -57,8 +59,8 @@ type cmdTableGenerator struct {
 	opts   []string
 }
 
-// Name implements schemagen.TableGenerator.
-func (c *cmdTableGenerator) Name() string {
+// GetName implements schemagen.TableGenerator.
+func (c *cmdTableGenerator) GetName() string {
 	return c.plugin
 }
 
@@ -71,17 +73,32 @@ func (c *cmdTableGenerator) Run(req *protoplugin.TableGeneratorRequest) (*protop
 	if err != nil {
 		return nil, err
 	}
+	var rawResp bytes.Buffer
 
-	_ = rawReq // TODO
-	_ = c.out
-	// find in path
-	// write to stdin
-	// read from stdout
+	// Split c.plugin into command and arguments
+	parts := strings.Fields(c.plugin)
+	cmdName := parts[0]
+	cmdArgs := parts[1:]
+
+	cmd := exec.Command(cmdName, cmdArgs...)
+	// write rawReq to stdin and read rawResp from stdout
+	cmd.Stdin = strings.NewReader(string(rawReq))
+	cmd.Stdout = &rawResp
+
+	// run command
+	err = cmd.Run()
+	if err != nil {
+		return nil, err
+	}
+
 	// parse response
+	resp := &protoplugin.TableGeneratorResponse{}
+	err = proto.Unmarshal(rawResp.Bytes(), resp)
+	if err != nil {
+		return nil, err
+	}
 
-	return &protoplugin.TableGeneratorResponse{
-		Files: []*protoplugin.TableGeneratorResponse_File{},
-	}, nil
+	return resp, nil
 }
 
 var _ schemagen.TableGenerator = (*cmdTableGenerator)(nil)
