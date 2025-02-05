@@ -10,6 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
+	"google.golang.org/protobuf/proto"
 
 	"buf.build/go/protoyaml"
 	"github.com/RyoJerryYu/schemax/proto/schemax/recipe"
@@ -25,6 +26,8 @@ import (
 
 type Option struct {
 	Config string `flag:"c" desc:"config file"`
+	Dsn    string `flag:"dsn" desc:"database dsn"`
+	Schema string `flag:"schema" desc:"database schema"`
 }
 
 func DefaultOption() *Option {
@@ -41,13 +44,17 @@ func (o *Option) Run() error {
 		return err
 	}
 
-	var cfgSet recipe.Recipe
+	cfgSet := recipe.Recipe{
+		Dsn:    o.Dsn,
+		Schema: o.Schema,
+	}
 	err = protoyaml.Unmarshal(cfgRaw, &cfgSet)
 	if err != nil {
 		return err
 	}
 
 	glog.V(2).Infof("gen for %d table sets, with %d plugins", len(cfgSet.TableSets), len(cfgSet.Plugins))
+	glog.Infof("schema: %s", cfgSet.Schema)
 
 	ctx := context.Background()
 	ctx, err = open(ctx, cfgSet.Dsn, cfgSet.Schema)
@@ -68,7 +75,19 @@ func (o *Option) Run() error {
 			glog.V(3).Infof("schema: %s, table: %s", schema.Name, table.Name)
 		}
 	}
-	_ = set
+
+	rawSet, err := proto.Marshal(set)
+	if err != nil {
+		return err
+	}
+
+	if len(cfgSet.Plugins) == 0 {
+		// write to stdout
+		_, err = os.Stdout.Write(rawSet)
+		return err
+	}
+
+	// write to plugins
 
 	return nil
 }
