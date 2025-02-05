@@ -1,0 +1,20 @@
+---
+dsn: mysql://schemaxuser:123456@127.0.0.1:13306/schemax?loc=Local&parseTime=true&charset=utf8mb4
+table_sets:
+  - set_name: default
+    tables:
+      - user
+      - address
+  - set_name: other
+    tables:
+      - setting
+
+plugins: []
+  # - plugin: go
+  #   out: /path/to/{set_name}/{table_name}.go
+  #   opts:
+  #     - package=model
+  # - plugin: json
+  #   out: /path/to/{set_name}/{table_name}.json
+  # - plugin: yaml
+  #   out: /path/to/{set_name}/{table_name}.yaml

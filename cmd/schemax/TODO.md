@@ -1,0 +1,5 @@
+- [x] config parse
+- [x] flag read
+- [x] schema read
+- [ ] plugin execute
+- [ ] output path mapping
