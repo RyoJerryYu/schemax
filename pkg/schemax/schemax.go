@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/RyoJerryYu/go-utilx/pkg/container/containerx"
-	"github.com/RyoJerryYu/go-utilx/pkg/utils/convertx"
 	"github.com/RyoJerryYu/schemax/pkg/schemagen"
 	protoplugin "github.com/RyoJerryYu/schemax/proto/schemax/plugin"
 	protorecipe "github.com/RyoJerryYu/schemax/proto/schemax/recipe"
@@ -48,8 +47,7 @@ func GenFor(recipe *protorecipe.Recipe, schema *protoschema.Schema, plugins ...s
 		}
 
 		req := protoplugin.TableGeneratorRequest{
-			FilesToGenerate: []string{"go"},      // TODO
-			Parameter:       convertx.StrPtr(""), // TODO
+			FilesToGenerate: []string{"go"}, // TODO
 			Tables:          tables,
 			SourceSchema:    schema,
 		}
