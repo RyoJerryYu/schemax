@@ -7,9 +7,11 @@ require (
 	github.com/RyoJerryYu/go-utilx v1.1.6
 	github.com/bufbuild/buf v1.50.0
 	github.com/go-sql-driver/mysql v1.8.1
+	github.com/golang/glog v1.2.2
 	github.com/google/uuid v1.6.0
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.22
+	github.com/octago/sflags v0.3.1
 	github.com/stretchr/testify v1.10.0
 	github.com/xo/dburl v0.23.1
 	github.com/xo/xo v1.0.2

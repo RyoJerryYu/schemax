@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"os"
-	"os/user"
 	"testing"
 
 	// drivers
@@ -14,44 +13,10 @@ import (
 	"buf.build/go/protoyaml"
 	"github.com/RyoJerryYu/schemax/proto/schemax/schema"
 	"github.com/stretchr/testify/require"
-	"github.com/xo/dburl"
-	"github.com/xo/dburl/passfile"
 	xocmd "github.com/xo/xo/cmd"
-	"github.com/xo/xo/loader"
 	xotype "github.com/xo/xo/types"
 )
 
-// open opens a connection to the database, returning a context for use in
-// template generation.
-func open(ctx context.Context, urlstr, schema string) (context.Context, error) {
-	v, err := user.Current()
-	if err != nil {
-		return nil, err
-	}
-	// parse dsn
-	u, err := dburl.Parse(urlstr)
-	if err != nil {
-		return nil, err
-	}
-	// open database
-	db, err := passfile.OpenURL(u, v.HomeDir, "xopass")
-	if err != nil {
-		return nil, err
-	}
-	// add driver to context
-	ctx = context.WithValue(ctx, xotype.DriverKey, u.Driver)
-	// add db to context
-	ctx = context.WithValue(ctx, xotype.DbKey, db)
-	// determine schema
-	if schema == "" {
-		if schema, err = loader.Schema(ctx); err != nil {
-			return nil, err
-		}
-	}
-	// add schema to context
-	ctx = context.WithValue(ctx, xotype.SchemaKey, schema)
-	return ctx, nil
-}
 func TestLoad(t *testing.T) {
 	ctx := context.Background()
 	var err error
