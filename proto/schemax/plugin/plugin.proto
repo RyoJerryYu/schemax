@@ -8,7 +8,7 @@ import "schemax/schema/schema.proto";
 option go_package = "github.com/RyoJerryYu/schemax/proto/schemax/plugin";
 
 message TableGeneratorRequest {
-  repeated string files_to_generate = 1;
+  repeated string tables_to_generate = 1;
   optional string parameter = 2;
   google.protobuf.compiler.Version compiler_version = 3;
 
