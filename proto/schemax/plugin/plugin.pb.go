@@ -154,9 +154,12 @@ func (x *TableGeneratorResponse) GetFiles() []*TableGeneratorResponse_File {
 }
 
 type TableGeneratorResponse_File struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          *string                `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Content       *string                `protobuf:"bytes,2,opt,name=content,proto3,oneof" json:"content,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// the file name, relative to the output directory.
+	// should not contain . or .. as path elements, so the generated file
+	// will be in the output directory or a subdirectory.
+	Name          *string `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Content       *string `protobuf:"bytes,2,opt,name=content,proto3,oneof" json:"content,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

@@ -21,6 +21,9 @@ message TableGeneratorRequest {
 message TableGeneratorResponse {
   optional string error = 1;
   message File {
+    // the file name, relative to the output directory.
+    // should not contain . or .. as path elements, so the generated file
+    // will be in the output directory or a subdirectory.
     optional string name = 1;
     optional string content = 2;
   }

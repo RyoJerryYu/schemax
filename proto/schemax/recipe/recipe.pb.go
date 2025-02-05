@@ -144,7 +144,7 @@ func (x *TableSet) GetTables() []string {
 type PluginSetting struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Plugin        string                 `protobuf:"bytes,1,opt,name=plugin,proto3" json:"plugin,omitempty"`
-	Out           string                 `protobuf:"bytes,2,opt,name=out,proto3" json:"out,omitempty"`   // output path template, can use {{.SetName}} and {{.TableName}}
+	Out           string                 `protobuf:"bytes,2,opt,name=out,proto3" json:"out,omitempty"`   // output directory path template, can use {{.SetName}} , all generated files will be in this directory
 	Opts          []string               `protobuf:"bytes,3,rep,name=opts,proto3" json:"opts,omitempty"` // plugin options
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
